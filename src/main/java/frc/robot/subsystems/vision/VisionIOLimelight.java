@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -38,6 +39,8 @@ public class VisionIOLimelight implements VisionIO {
     private final DoubleSubscriber tySubscriber;
     private final DoubleArraySubscriber megatag1Subscriber;
     private final DoubleArraySubscriber megatag2Subscriber;
+
+    private final VisionIOInputs inputs = new VisionIOInputs();
 
     /**
      * Creates a new VisionIOLimelight.
@@ -147,4 +150,20 @@ public class VisionIOLimelight implements VisionIO {
                         Units.degreesToRadians(rawLLArray[4]),
                         Units.degreesToRadians(rawLLArray[5])));
     }
+
+    /** Returns the April Tag that is directly in front of the robot */
+    public Optional<PoseObservation> getTagDirectlyInFront() {
+        PoseObservation tagInFront = null;
+        double smallestTx = Double.MAX_VALUE;
+    
+        for (PoseObservation observation : inputs.poseObservations) {
+            double tx = observation.pose().getTranslation().getX(); // Use accessor method
+            if (Math.abs(tx) < smallestTx) {
+                tagInFront = observation;
+                smallestTx = Math.abs(tx);
+            }
+        }
+    
+        return Optional.ofNullable(tagInFront);
+    }    
 }

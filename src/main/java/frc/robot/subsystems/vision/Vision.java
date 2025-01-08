@@ -40,6 +40,8 @@ public class Vision extends SubsystemBase {
         this.consumer = consumer;
         this.io = io;
 
+        System.out.println("Initializing vision subsystem...");
+
         // Initialize inputs
         this.inputs = new VisionIOInputsAutoLogged[io.length];
         for (int i = 0; i < inputs.length; i++) {
@@ -142,7 +144,7 @@ public class Vision extends SubsystemBase {
                         VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev));
             }
 
-            // Log camera datadata
+            // Log camera data
             Logger.recordOutput(
                     "Vision/Camera" + cameraIndex + "/TagPoses", tagPoses.toArray(new Pose3d[tagPoses.size()]));
             Logger.recordOutput(
@@ -157,6 +159,8 @@ public class Vision extends SubsystemBase {
             allRobotPoses.addAll(robotPoses);
             allRobotPosesAccepted.addAll(robotPosesAccepted);
             allRobotPosesRejected.addAll(robotPosesRejected);
+
+            System.out.println("Logging Camera Data");
         }
 
         // Log summary data
@@ -168,6 +172,7 @@ public class Vision extends SubsystemBase {
         Logger.recordOutput(
                 "Vision/Summary/RobotPosesRejected",
                 allRobotPosesRejected.toArray(new Pose3d[allRobotPosesRejected.size()]));
+        System.out.println("Logging Camera Summary Data");
     }
 
     @FunctionalInterface

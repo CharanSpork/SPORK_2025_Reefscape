@@ -32,6 +32,7 @@ import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import frc.robot.commands.DockToFrontTagCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -42,7 +43,7 @@ public class RobotContainer {
 
     // Subsystems
     private final Drive drive;
-    private final Vision vision;
+    private final VisionIOLimelight vision;
     private SwerveDriveSimulation driveSimulation = null;
 
     // Controller
@@ -63,10 +64,7 @@ public class RobotContainer {
                         new ModuleIOSpark(2),
                         new ModuleIOSpark(3));
 
-                this.vision = new Vision(
-                        drive,
-                        new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation),
-                        new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation));
+                vision = new VisionIOLimelight(camera0Name, drive::getRotation);
 
                 break;
 
@@ -84,12 +82,7 @@ public class RobotContainer {
                         new ModuleIOSim(driveSimulation.getModules()[2]),
                         new ModuleIOSim(driveSimulation.getModules()[3]));
 
-                vision = new Vision(
-                        drive,
-                        new VisionIOPhotonVisionSim(
-                                camera0Name, robotToCamera0, driveSimulation::getSimulatedDriveTrainPose),
-                        new VisionIOPhotonVisionSim(
-                                camera1Name, robotToCamera1, driveSimulation::getSimulatedDriveTrainPose));
+                        //vision = new VisionIOLimelightSim(camera0Name, drive, robotToCamera0);
 
                 break;
 
@@ -97,7 +90,7 @@ public class RobotContainer {
                 // Replayed robot, disable IO implementations
                 drive = new Drive(
                         new GyroIO() {}, new ModuleIO() {}, new ModuleIO() {}, new ModuleIO() {}, new ModuleIO() {});
-                vision = new Vision(drive, new VisionIO() {}, new VisionIO() {});
+                vision = null; // No Vision in replay mode
 
                 break;
         }
@@ -136,15 +129,6 @@ public class RobotContainer {
                 () -> -controller.getRawAxis(activeProfile.rightXAxis) // Rotation
                 ));
 
-        // Lock to 0 degrees when A button is held
-        controller
-                .a()
-                .whileTrue(DriveCommands.joystickDriveAtAngle(
-                        drive,
-                        () -> -controller.getRawAxis(activeProfile.leftYAxis),
-                        () -> -controller.getRawAxis(activeProfile.leftXAxis),
-                        () -> new Rotation2d()));
-
         // Reset gyro / odometry
         final Runnable resetGyro = Constants.currentMode == Constants.Mode.SIM
                 ? () -> drive.resetOdometry(
@@ -152,6 +136,11 @@ public class RobotContainer {
                 : () -> drive.resetOdometry(
                         new Pose2d(drive.getPose().getTranslation(), new Rotation2d())); // zero gyro
         controller.start().onTrue(Commands.runOnce(resetGyro, drive).ignoringDisable(true));
+
+        // Dock with scoring tag directly in front of robot
+        controller
+        .button(activeProfile.buttonA)
+        .whileTrue(DockToFrontTagCommand.create(vision, drive));
 
         // RECORD VELOCITY OF SHOOTER MOTOR
         // controller
