@@ -82,7 +82,7 @@ public class RobotContainer {
                         new ModuleIOSim(driveSimulation.getModules()[2]),
                         new ModuleIOSim(driveSimulation.getModules()[3]));
 
-                        //vision = new VisionIOLimelightSim(camera0Name, drive, robotToCamera0);
+                        vision = new VisionIOLimelight(camera0Name, drive::getRotation);
 
                 break;
 
