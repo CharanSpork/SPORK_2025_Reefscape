@@ -29,6 +29,8 @@ import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -44,6 +46,7 @@ public class RobotContainer {
     private final ControllerBindings controllerBindings;
     private final CommandXboxController controller = new CommandXboxController(0);
     private final LoggedDashboardChooser<Command> autoChooser;
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -101,15 +104,10 @@ public class RobotContainer {
         autoChooser.addOption("Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
         // Configure the button bindings
-        controllerBindings = new ControllerBindings(controller, drive, vision);
+        controllerBindings = new ControllerBindings(controller, drive, vision, executorService);
         controllerBindings.configureButtonBindings();
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
     public Command getAutonomousCommand() {
         return autoChooser.get();
     }
@@ -129,10 +127,9 @@ public class RobotContainer {
     }
 
     public void updateVisionInputs() {
-    if (vision != null) {
-        VisionIOInputs inputs = new VisionIOInputs();
-        vision.updateInputs(inputs);
+        if (vision != null) {
+            VisionIOInputs inputs = new VisionIOInputs();
+            vision.updateInputs(inputs);
+        }
     }
-    
-}
 }

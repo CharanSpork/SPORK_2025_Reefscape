@@ -1,31 +1,42 @@
 package frc.robot.util;
 
-import org.littletonrobotics.junction.Logger;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.vision.VisionIO;
 
 /** Utility class for executing predefined robot actions. */
 public class RobotActions {
 
-    public static void logClosestAprilTag(VisionIO vision) {
-        if (vision != null) {
-            VisionIO.VisionIOInputs inputs = new VisionIO.VisionIOInputs();
-            vision.updateInputs(inputs);
+    public static void executeDockToClosestAprilTag(Drive drive, VisionIO vision) {
+        // Instantiate DockingController
+        DockingController dockingController = new DockingController(drive, vision);
 
-            if (inputs.poseObservations.length > 0) {
-                VisionIO.PoseObservation closestTag = inputs.poseObservations[0];
-                Logger.recordOutput("RobotActions/ClosestTag/ID", closestTag.type().ordinal());
-                Logger.recordOutput("RobotActions/ClosestTag/Pose", new double[]{
-                    closestTag.pose().getTranslation().getX(),
-                    closestTag.pose().getTranslation().getY(),
-                    closestTag.pose().getTranslation().getZ()
-                });
-                System.out.println("Closest AprilTag: ID = " + closestTag.type().ordinal() +
-                    ", Pose = " + closestTag.pose());
-            } else {
-                System.out.println("No AprilTags detected.");
+        // Start docking process
+        dockingController.startDocking();
+
+        // Continuously execute docking logic until complete
+        while (true) {
+            dockingController.executeDocking();
+
+            // Check if docking is complete (dockToClosestAprilTag should manage its own termination)
+            if (!isDockingActive(dockingController)) {
+                break;
             }
-        } else {
-            System.out.println("Vision subsystem is null.");
+
+            // Add a small delay to prevent busy looping (adjust as necessary)
+            try {
+                Thread.sleep(20); // 20ms delay (50Hz update rate)
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("Docking process interrupted!");
+                break;
+            }
         }
+
+        System.out.println("Docking complete or process terminated!");
+    }
+
+    private static boolean isDockingActive(DockingController dockingController) {
+        // This can be adjusted based on the DockingController's internal state logic
+        return dockingController.isActive();
     }
 }

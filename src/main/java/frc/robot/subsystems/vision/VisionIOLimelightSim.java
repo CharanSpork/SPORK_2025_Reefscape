@@ -5,11 +5,11 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
-import frc.robot.subsystems.drive.Drive;
 
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /** Simulated IO implementation for Limelight vision system using AdvantageScope AprilTag emulation. */
@@ -88,7 +88,7 @@ public class VisionIOLimelightSim implements VisionIO {
     /**
      * Gets tags within a given range of the robot's pose.
      */
-    private List<edu.wpi.first.apriltag.AprilTag> getTagsInRange(Pose3d robotPose, double maxRange) {
+    public List<edu.wpi.first.apriltag.AprilTag> getTagsInRange(Pose3d robotPose, double maxRange) {
         return fieldLayout.getTags().stream()
                 .filter(tag -> robotPose.getTranslation().getDistance(tag.pose.getTranslation()) <= maxRange)
                 // .filter(tag -> isWithinFieldOfView(robotPose, tag.pose)) // Temporarily disable FOV filtering

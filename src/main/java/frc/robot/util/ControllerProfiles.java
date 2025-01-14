@@ -63,18 +63,6 @@ public class ControllerProfiles {
             6 // Triggers and Bumper
             );
 
-            public static final ControllerProfile ROBORIO2 = new ControllerProfile(
-                1,
-                0,
-                4, // Joystick Axes
-                3,
-                2,
-                1, // Buttons
-                2,
-                3,
-                6 // Triggers and Bumper
-                );
-
     // Method to detect the current profile based on the operating system
     public static ControllerProfile detectControllerProfile() {
         String os = System.getProperty("os.name").toLowerCase();
@@ -85,9 +73,6 @@ public class ControllerProfiles {
         } else if (os.contains("win")) {
             System.out.println("Detected OS: Windows. Using WINDOWS_WIRED_XBOX profile.");
             return WINDOWS_WIRED_XBOX;
-        } else if (os.contains("linux")) {
-            System.out.println("Detected OS: Windows. Using WINDOWS_WIRED_XBOX profile.");
-            return ROBORIO2;
         } else {
             throw new UnsupportedOperationException("Unsupported OS: " + os);
         }

@@ -151,19 +151,9 @@ public class VisionIOLimelight implements VisionIO {
                         Units.degreesToRadians(rawLLArray[5])));
     }
 
-    /** Returns the April Tag that is directly in front of the robot */
-    public Optional<PoseObservation> getTagDirectlyInFront() {
-        PoseObservation tagInFront = null;
-        double smallestTx = Double.MAX_VALUE;
-    
-        for (PoseObservation observation : inputs.poseObservations) {
-            double tx = observation.pose().getTranslation().getX(); // Use accessor method
-            if (Math.abs(tx) < smallestTx) {
-                tagInFront = observation;
-                smallestTx = Math.abs(tx);
-            }
-        }
-    
-        return Optional.ofNullable(tagInFront);
-    }    
+    @Override
+    public List<edu.wpi.first.apriltag.AprilTag> getTagsInRange(Pose3d robotPose, double maxRange) {
+        return List.of(); // No tags available
+    }
+
 }

@@ -16,6 +16,9 @@ package frc.robot.subsystems.vision;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.littletonrobotics.junction.AutoLog;
 
 public interface VisionIO {
@@ -26,6 +29,9 @@ public interface VisionIO {
         public PoseObservation[] poseObservations = new PoseObservation[0];
         public int[] tagIds = new int[0];
     }
+
+    // Retrieves a list of tags within a specified range from the given robot pose.
+    List<edu.wpi.first.apriltag.AprilTag> getTagsInRange(Pose3d robotPose, double maxRange);
 
     /** Represents the angle to a simple target, not used for pose estimation. */
     public static record TargetObservation(Rotation2d tx, Rotation2d ty) {}
