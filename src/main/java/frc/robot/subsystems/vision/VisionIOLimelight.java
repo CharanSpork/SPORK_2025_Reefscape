@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj.RobotController;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -40,7 +39,7 @@ public class VisionIOLimelight implements VisionIO {
     private final DoubleArraySubscriber megatag1Subscriber;
     private final DoubleArraySubscriber megatag2Subscriber;
 
-    private final VisionIOInputs inputs = new VisionIOInputs();
+    //private final VisionIOInputs inputs = new VisionIOInputs();
 
     /**
      * Creates a new VisionIOLimelight.

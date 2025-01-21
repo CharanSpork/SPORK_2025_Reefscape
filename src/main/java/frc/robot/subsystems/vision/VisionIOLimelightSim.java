@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /** Simulated IO implementation for Limelight vision system using AdvantageScope AprilTag emulation. */

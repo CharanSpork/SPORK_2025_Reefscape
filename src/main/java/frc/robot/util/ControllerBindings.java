@@ -68,5 +68,15 @@ public class ControllerBindings {
         // Right Bumper: Perform a toggle action
         //controller.button(activeProfile.rightBumper)
         //    .onTrue(null);
+
+        // D-pad bindings
+        //new Trigger(() -> controller.getHID().getPOV() == 0)
+        //    .whileTrue(Commands.run(() -> drive.runVelocity(DriveCommands.forwardChassisSpeed()), drive));
+        //new Trigger(() -> controller.getHID().getPOV() == 90)
+        //    .whileTrue(Commands.run(() -> drive.runVelocity(DriveCommands.strafeRightChassisSpeed()), drive));
+        //new Trigger(() -> controller.getHID().getPOV() == 180)
+        //    .whileTrue(Commands.run(() -> drive.runVelocity(DriveCommands.backwardChassisSpeed()), drive));
+        //new Trigger(() -> controller.getHID().getPOV() == 270)
+        //    .whileTrue(Commands.run(() -> drive.runVelocity(DriveCommands.strafeLeftChassisSpeed()), drive));
     }
 }
