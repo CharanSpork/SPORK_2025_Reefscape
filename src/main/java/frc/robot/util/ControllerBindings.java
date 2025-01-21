@@ -69,13 +69,19 @@ public class ControllerBindings {
         //controller.button(activeProfile.rightBumper)
         //    .onTrue(null);
 
-        // D-pad bindings
+        // DPad UP
         //new Trigger(() -> controller.getHID().getPOV() == 0)
         //    .whileTrue(Commands.run(() -> drive.runVelocity(DriveCommands.forwardChassisSpeed()), drive));
+        
+        // DPad RIGHT
         //new Trigger(() -> controller.getHID().getPOV() == 90)
         //    .whileTrue(Commands.run(() -> drive.runVelocity(DriveCommands.strafeRightChassisSpeed()), drive));
+        
+        // DPad DOWN
         //new Trigger(() -> controller.getHID().getPOV() == 180)
         //    .whileTrue(Commands.run(() -> drive.runVelocity(DriveCommands.backwardChassisSpeed()), drive));
+        
+        // DPad LEFT
         //new Trigger(() -> controller.getHID().getPOV() == 270)
         //    .whileTrue(Commands.run(() -> drive.runVelocity(DriveCommands.strafeLeftChassisSpeed()), drive));
     }
