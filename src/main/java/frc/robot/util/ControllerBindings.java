@@ -31,7 +31,7 @@ public class ControllerBindings {
                 // Pay attention to the fact that some of these are inverted
                 () -> controller.getRawAxis(activeProfile.leftYAxis), // Forward/backward
                 () -> controller.getRawAxis(activeProfile.leftXAxis), // Strafe
-                () -> -controller.getRawAxis(activeProfile.rightXAxis) // Rotation
+                () -> controller.getRawAxis(activeProfile.rightXAxis) // Rotation
             ));
 
         // Example: Button A - Drive forward at half speed
