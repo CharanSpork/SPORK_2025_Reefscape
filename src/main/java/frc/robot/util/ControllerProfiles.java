@@ -39,7 +39,6 @@ public class ControllerProfiles {
     // Predefined profiles
     // Determine controller buttons in Advantage Scope using the Joysticks tab and selecting 'Generic
     // Joystick'
-    // TODO: Add D-Pad buttons to ControllerProfile
     public static final ControllerProfile MACOS_XBOX = new ControllerProfile(
             1,
             0,
