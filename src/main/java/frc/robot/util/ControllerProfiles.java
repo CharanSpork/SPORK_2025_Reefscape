@@ -10,6 +10,7 @@ public class ControllerProfiles {
         public final int buttonX;
         public final int buttonB;
         public final int buttonA;
+        public final int buttonY;
         public final int leftTriggerAxis;
         public final int rightTriggerAxis;
         public final int rightBumper;
@@ -21,6 +22,7 @@ public class ControllerProfiles {
                 int buttonX,
                 int buttonB,
                 int buttonA,
+                int buttonY,
                 int leftTriggerAxis,
                 int rightTriggerAxis,
                 int rightBumper) {
@@ -30,6 +32,7 @@ public class ControllerProfiles {
             this.buttonX = buttonX;
             this.buttonB = buttonB;
             this.buttonA = buttonA;
+            this.buttonY = buttonY;
             this.leftTriggerAxis = leftTriggerAxis;
             this.rightTriggerAxis = rightTriggerAxis;
             this.rightBumper = rightBumper;
@@ -47,9 +50,10 @@ public class ControllerProfiles {
             4,
             2,
             1, // Buttons
-            5,
+            2,
+            3,
             4,
-            8 // Triggers and Bumper
+            9 // Triggers and Bumper
             );
 
     public static final ControllerProfile WINDOWS_WIRED_XBOX = new ControllerProfile(
@@ -61,7 +65,8 @@ public class ControllerProfiles {
             1, // Buttons
             2,
             3,
-            6 // Triggers and Bumper
+            4,
+            1 // Triggers and Bumper
             );
 
         public static final ControllerProfile ROBORIO2 = new ControllerProfile(
@@ -73,6 +78,7 @@ public class ControllerProfiles {
             1, // Buttons
             2,
             3,
+            4,
             6 // Triggers and Bumper
             );
 
