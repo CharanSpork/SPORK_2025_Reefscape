@@ -13,13 +13,15 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class ControllerBindings {
     private final CommandXboxController controller;
+    private final CommandXboxController controller2; 
     private final Drive drive;
     private final VisionIO vision;
     private final ControllerProfiles.ControllerProfile activeProfile;
     private int lastPOV = -1; // Tracks the previous POV state
 
-    public ControllerBindings(CommandXboxController controller, Drive driveSubsystem, VisionIO vision) {
+    public ControllerBindings(CommandXboxController controller,CommandXboxController controller2, Drive driveSubsystem, VisionIO vision) {
         this.controller = controller;
+        this.controller2 = controller2;
         this.drive = driveSubsystem;
         this.vision = vision;
 
@@ -30,10 +32,10 @@ public class ControllerBindings {
         configureButtonBindings();
         configureTriggerBindings();
     }
-    /**
-     * Configures button bindings dynamically based on the detected controller profile.
-     * This is where we map our functional classes to controller buttons
-     */
+    /*
+    Configures button bindings dynamically based on the detected controller profile.
+    This is where we map our functional classes to controller buttons
+    */
     private void configureButtonBindings() {
         drive.setDefaultCommand(DriveCommands.joystickDrive(
                 drive,
@@ -54,31 +56,17 @@ public class ControllerBindings {
         controller.button(activeProfile.buttonX)
             .whileTrue(Commands.run(() -> System.out.println("X Button Pushed"))); // X Button Testing
 
-        
-
-             /* Trigger Testing
-        new Trigger(() -> controller.getRawAxis(activeProfile.leftTriggerAxis) > 0.5)
-            .whileTrue(Commands.run(() -> System.out.println("Left Trigger Pushed"))); // Left Trigger Testing
-
-        new Trigger(() -> controller.getRawAxis(activeProfile.rightTriggerAxis) > 0.5)
-            .whileTrue(Commands.run(() -> System.out.println("Right Trigger Pushed"))); //Right Trigger Testing*/
-
-
-            // Bumper Testing
-        controller.button(activeProfile.rightBumper)
-            .whileTrue(Commands.run(() -> System.out.println("Right Bumper Pushed"))); // Right Bumper Testing
+        controller.button(activeProfile.buttonY)
+            .whileTrue(Commands.run(() -> System.out.println("Y Button Pushed"))); // Y Buuton Testing
     }
     //Cannot press same DPad button twice, must press another DPad button before pressing again.
     //Doesn't need fix because you are pressing one button at 
     private void configureTriggerBindings() {
-        // Trigger Testing
-        new Trigger(() -> controller.getRawAxis(activeProfile.leftTriggerAxis) > 0.5)
-            .whileTrue(Commands.run(() -> System.out.println("Left Trigger Pushed"))); // Left Trigger Testing
-
-        new Trigger(() -> controller.getRawAxis(activeProfile.rightTriggerAxis) > 0.5)
+        // Trigger Testing2a
+        new Trigger(() -> controller2.getRawAxis(activeProfile.rightTriggerAxis) > 0.5)
             .whileTrue(Commands.run(() -> System.out.println("Right Trigger Pushed"))); //Right Trigger Testing
         
-        // Define a Trigger that monitors POV changes
+        // Define a Trigger that monitors trigger brindings
         new Trigger(() -> {
             int currentPOV = controller.getHID().getPOV();
             boolean pressed = (currentPOV != -1 && currentPOV != lastPOV);
