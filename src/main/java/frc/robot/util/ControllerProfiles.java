@@ -10,10 +10,7 @@ public class ControllerProfiles {
         public final int buttonX;
         public final int buttonB;
         public final int buttonA;
-        public final int buttonY;
-        public final int leftTriggerAxis;
         public final int rightTriggerAxis;
-        public final int rightBumper;
 
         public ControllerProfile(
                 int leftYAxis,
@@ -22,27 +19,20 @@ public class ControllerProfiles {
                 int buttonX,
                 int buttonB,
                 int buttonA,
-                int buttonY,
-                int leftTriggerAxis,
-                int rightTriggerAxis,
-                int rightBumper) {
+                int rightTriggerAxis) {
             this.leftYAxis = leftYAxis;
             this.leftXAxis = leftXAxis;
             this.rightXAxis = rightXAxis;
             this.buttonX = buttonX;
             this.buttonB = buttonB;
             this.buttonA = buttonA;
-            this.buttonY = buttonY;
-            this.leftTriggerAxis = leftTriggerAxis;
             this.rightTriggerAxis = rightTriggerAxis;
-            this.rightBumper = rightBumper;
         }
     }
 
     // Predefined profiles
     // Determine controller buttons in Advantage Scope using the Joysticks tab and selecting 'Generic
     // Joystick'
-    // TODO: Add D-Pad buttons to ControllerProfile
     public static final ControllerProfile MACOS_XBOX = new ControllerProfile(
             1,
             0,
@@ -50,37 +40,25 @@ public class ControllerProfiles {
             4,
             2,
             1, // Buttons
-            2,
-            3,
-            4,
-            9 // Triggers and Bumper
-            );
+            4);
 
     public static final ControllerProfile WINDOWS_WIRED_XBOX = new ControllerProfile(
             1,
             0,
             4, // Joystick Axes
-            3,
+            4,
             2,
             1, // Buttons
-            2,
-            3,
-            4,
-            1 // Triggers and Bumper
-            );
+            4);
 
         public static final ControllerProfile ROBORIO2 = new ControllerProfile(
             1,
             0,
             4, // Joystick Axes
-            3,
+            4,
             2,
             1, // Buttons
-            2,
-            3,
-            4,
-            6 // Triggers and Bumper
-            );
+            4);
 
     // Method to detect the current profile based on the operating system
     public static ControllerProfile detectControllerProfile() {
