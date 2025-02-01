@@ -15,6 +15,7 @@ package frc.robot.subsystems.drive;
 
 import static frc.robot.subsystems.drive.DriveConstants.*;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
@@ -129,7 +130,7 @@ public class ModuleIOSpark implements ModuleIO {
         driveConfig
             .idleMode(com.revrobotics.spark.config.SparkBaseConfig.IdleMode.kBrake)
             .smartCurrentLimit(driveMotorCurrentLimit)
-            .inverted(true)
+            .inverted(false)
             .voltageCompensation(12.0);
 
         driveConfig.encoder
@@ -170,6 +171,8 @@ public class ModuleIOSpark implements ModuleIO {
         
         // SET turnEncoder (Relative Encoder) to the absolute encoders position
         turnEncoder.setPosition(absolutePosition - zeroRotation.getRotations());
+
+        System.out.println("Module " + absoluteEncoder.getDeviceID() + " turn angle is " + turnEncoder.getPosition() / (360));
     }
 
     private Rotation2d getTurnPosition() {
@@ -179,7 +182,7 @@ public class ModuleIOSpark implements ModuleIO {
     @Override
     public void setTurnPosition(Rotation2d desiredRotation) {
         double setpoint = MathUtil.inputModulus(
-            desiredRotation.plus(zeroRotation).getRadians(), turnPIDMinInput, turnPIDMaxInput
+            desiredRotation.getRadians(), turnPIDMinInput, turnPIDMaxInput
         );
         turnController.setReference(setpoint, ControlType.kPosition);
     }

@@ -31,10 +31,10 @@ public class DriveConstants {
     };
 
     // Zeroed rotation values for each module to account for physical offset
-    public static final Rotation2d frontLeftZeroRotation = new Rotation2d(3.0);
-    public static final Rotation2d frontRightZeroRotation = new Rotation2d(1.12);
-    public static final Rotation2d backLeftZeroRotation = new Rotation2d(2.6);
-    public static final Rotation2d backRightZeroRotation = new Rotation2d(3.3);
+    public static final Rotation2d frontLeftZeroRotation = new Rotation2d(1.358);
+    public static final Rotation2d frontRightZeroRotation = new Rotation2d(0.92); //Straight at 0.92
+    public static final Rotation2d backLeftZeroRotation = new Rotation2d(1.96);
+    public static final Rotation2d backRightZeroRotation = new Rotation2d(1.10);
 
     // CAN IDs
     public static final int pigeonCanId = 9;
@@ -67,9 +67,9 @@ public class DriveConstants {
         (2 * Math.PI * wheelRadiusMeters) / (60.0 * driveMotorReduction); // Sensor RPM -> rad/sec
 
     // Drive PID configuration
-    public static final double driveKp = 0.06;   // 0.06
-    public static final double driveKd = 0.007;   // 0.007
-    public static final double driveKs = 0.3;
+    public static final double driveKp = 0.01;   // 0.06
+    public static final double driveKd = 0.0001;   // 0.007
+    public static final double driveKs = 0.001;
     public static final double driveKv = 0.1;
     public static final double driveKi = 0.00;
     public static final double driveSimP = 0.1;
@@ -94,9 +94,9 @@ public class DriveConstants {
     public static final double robotMOI = 6.883;
     
     // Turn PID configuration
-    public static final double turnKp = 0.01; //0.06
-    public static final double turnKd = 0.00; //0.007
-    public static final double turnKi = 0.00;
+    public static final double turnKp = 0.10;  // Proportional gain
+    public static final double turnKi = 0.00; // Small integral to address minor steady-state errors
+    public static final double turnKd = 0.00;  // Derivative to dampen oscillations    
     public static final double turnSimP = 1.5;
     public static final double turnSimD = 0.1;
     public static final double turnPIDMinInput = 0; // Radians
