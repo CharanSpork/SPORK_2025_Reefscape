@@ -14,12 +14,15 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.*;
@@ -43,8 +46,8 @@ public class RobotContainer {
     private final VisionIO vision;
     private SwerveDriveSimulation driveSimulation = null;
     private final ControllerBindings controllerBindings;
-    private final CommandXboxController driverController = new CommandXboxController(0);
-    private final CommandXboxController operatorController = new CommandXboxController(1);
+    private final CommandXboxController controller = new CommandXboxController(0);
+    private final CommandXboxController controller2 = new CommandXboxController(1);
     private final LoggedDashboardChooser<Command> autoChooser;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -58,7 +61,7 @@ public class RobotContainer {
                         new ModuleIOSpark(1),
                         new ModuleIOSpark(2),
                         new ModuleIOSpark(3));
-                
+                                
                 vision = null;
                 break;
 
@@ -102,7 +105,7 @@ public class RobotContainer {
         autoChooser.addOption("Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
         // Configure the button bindings
-        controllerBindings = new ControllerBindings(driverController, operatorController, drive, vision);
+        controllerBindings = new ControllerBindings(controller, controller2, drive, vision);
         controllerBindings.configure();
     }
 

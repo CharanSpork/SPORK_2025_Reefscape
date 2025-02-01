@@ -37,7 +37,7 @@ public class ControllerProfiles {
             1,
             0,
             2, // Joystick Axes
-            4,
+            3,
             2,
             1, // Buttons
             4);
