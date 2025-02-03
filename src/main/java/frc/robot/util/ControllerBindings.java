@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ElevatorConstants;
 import frc.robot.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.util.RobotActions;
 
 public class ControllerBindings {
     private final CommandXboxController driverController;
@@ -18,6 +20,7 @@ public class ControllerBindings {
     private final Drive drive;
     private final VisionIO vision;
     private final ControllerProfiles.ControllerProfile activeProfile;
+
     private int lastPOV = -1; // Tracks the previous POV state
 
     public ControllerBindings(CommandXboxController driverController,CommandXboxController operatorController, Drive driveSubsystem, VisionIO vision) {
@@ -44,6 +47,23 @@ public class ControllerBindings {
                 () -> driverController.getRawAxis(activeProfile.leftXAxis),  // Strafe
                 () -> -driverController.getRawAxis(activeProfile.rightXAxis)  // Rotation
         ));
+
+
+    if (activeProfile.buttonX == 1){
+        RobotActions.movetoL1();
+    }
+    /*
+    if (activeProfile.buttonY == 1){
+        RobotActions.movetoL2();
+    }
+    */
+    if (activeProfile.buttonB == 1){
+        RobotActions.movetoL3();
+    }
+    if (activeProfile.buttonA == 1){
+        RobotActions.movetoL4();
+    }
+
             //Primary Controller face buttons
         driverController.button(activeProfile.buttonA)
             .whileTrue(Commands.run(() -> System.out.println("Driver A Button Pushed")));

@@ -31,7 +31,10 @@ public class DriveConstants {
     };
 
     // Zeroed rotation values for each module to account for physical offset
-    public static final Rotation2d frontLeftZeroRotation = new Rotation2d(1.358);
+    // Open Advantagescope and read degree value for straight forward. Next convert that degree value to radians.
+    // Depending on whether you want to zero from the left or right, add or subtract the radian value from the motor's ZeroRotation.
+    // Reference value in intializer in ModuleIOSpark to determine accuracy(comment set there to indicate line)
+    public static final Rotation2d frontLeftZeroRotation = new Rotation2d(1.358); 
     public static final Rotation2d frontRightZeroRotation = new Rotation2d(0.92); //Straight at 0.92
     public static final Rotation2d backLeftZeroRotation = new Rotation2d(1.96);
     public static final Rotation2d backRightZeroRotation = new Rotation2d(1.10);
@@ -94,6 +97,8 @@ public class DriveConstants {
     public static final double robotMOI = 6.883;
     
     // Turn PID configuration
+    // Drive PID and turn PID must have a certain ratio Turn:Drive should be 10:1 approximately
+    // Try to set turn PID p to about 0.10 and the i and d to 0(or else it will go haywire)
     public static final double turnKp = 0.10;  // Proportional gain
     public static final double turnKi = 0.00; // Small integral to address minor steady-state errors
     public static final double turnKd = 0.00;  // Derivative to dampen oscillations    
