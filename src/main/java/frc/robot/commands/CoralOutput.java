@@ -3,8 +3,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class CoralOutput extends CommandBase {
+public class CoralOutput extends Command {
     private final PWMSparkMax shooterMotor;
     private final XboxController commandXboxController;
 

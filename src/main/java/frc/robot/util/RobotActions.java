@@ -12,11 +12,8 @@ public class RobotActions {
     public static void executeDockToClosestAprilTag(Drive drive) {
         new frc.robot.util.DockingController(drive).driveToClosestAprilTag();
     }
+    
     public static void ShootCoral(XboxController commandXboxController, PWMSparkMax shooterMotor) {
                     CoralOutput CoralOutput = new CoralOutput(shooterMotor, commandXboxController);
-        }
     }
-
-
-
-
+}
