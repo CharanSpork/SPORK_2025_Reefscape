@@ -33,6 +33,8 @@ public class DockingController {
         if (currentPose == null) {
             System.out.println("DockingController - No pose data available yet.");
             return;
+        } else {
+            System.out.println("Current pose is " + currentPose);
         }
 
         Optional<AprilTag> closestTag = VisionConstants.aprilTagLayout.getTags().stream()
@@ -96,7 +98,7 @@ public class DockingController {
             Command pathCommand = AutoBuilder.followPath(path);
             
             // Execute the path
-            pathCommand.schedule();
+            //pathCommand.schedule();
         } else {
             System.out.println("No AprilTags found in the layout.");
         }

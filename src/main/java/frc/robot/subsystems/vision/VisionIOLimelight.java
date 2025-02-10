@@ -22,6 +22,8 @@ import edu.wpi.first.networktables.DoubleArraySubscriber;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotController;
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -134,6 +136,17 @@ public class VisionIOLimelight implements VisionIO {
         for (int id : tagIds) {
             inputs.tagIds[i++] = id;
         }
+
+        // Save tag IDs to inputs objects
+        inputs.tagIds = tagIds.stream().mapToInt(Integer::intValue).toArray();
+
+        // DEBUG statements for cameras
+        //System.out.println("Latency (tl): " + latencySubscriber.get());
+        //System.out.println("Horizontal Offset (tx): " + txSubscriber.get());
+        //System.out.println("Vertical Offset (ty): " + tySubscriber.get());
+        //System.out.println("MegaTag1 Pose (botpose_wpiblue): " + Arrays.toString(megatag1Subscriber.get()));
+        //System.out.println("MegaTag2 Pose (botpose_orb_wpiblue): " + Arrays.toString(megatag2Subscriber.get()));
+
     }
 
     /** Parses the 3D pose from a Limelight botpose array. */

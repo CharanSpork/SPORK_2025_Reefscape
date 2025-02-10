@@ -35,9 +35,5 @@ public class RobotActions {
     }
     public static void ShootCoral(XboxController commandXboxController, PWMSparkMax shooterMotor) {
                     CoralOutput CoralOutput = new CoralOutput(shooterMotor, commandXboxController);
-        }
     }
-
-
-
-
+}

@@ -52,6 +52,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase implements Vision.VisionConsumer {
+    private boolean odometryResetToVision = false;
     static final Lock odometryLock = new ReentrantLock();
     private final GyroIO gyroIO;
     private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
@@ -161,6 +162,9 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
             // Apply update
             poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
         }
+
+        // Print current robot pose
+        //System.out.println("DRIVE.JAVA - Current robot pose is " + getPose());
 
         // Update gyro alert
         gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
@@ -287,6 +291,13 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
     /** Adds a new timestamped vision measurement. */
     @Override
     public void accept(Pose2d visionRobotPoseMeters, double timestampSeconds, Matrix<N3, N1> visionMeasurementStdDevs) {
+        if (!odometryResetToVision) {
+            System.out.println("Resetting Odometry to Initial Vision Pose: " + visionRobotPoseMeters);
+            resetOdometry(visionRobotPoseMeters);
+            odometryResetToVision = true;
+        }
+    
+        // Continue adding vision measurements after the initial reset
         poseEstimator.addVisionMeasurement(visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
     }
 
