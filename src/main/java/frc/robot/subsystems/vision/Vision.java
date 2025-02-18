@@ -62,15 +62,6 @@ public class Vision extends SubsystemBase {
         return visionIO;
     }
 
-    /**
-     * Returns the X angle to the best target, which can be used for simple servoing with vision.
-     *
-     * @param cameraIndex The index of the camera to use.
-     */
-    public Rotation2d getTargetX(int cameraIndex) {
-        return inputs[cameraIndex].latestTargetObservation.tx();
-    }
-
     @Override
     public void periodic() {
         for (int i = 0; i < io.length; i++) {
@@ -125,7 +116,7 @@ public class Vision extends SubsystemBase {
                     robotPosesAccepted.add(observation.pose());
                 }
 
-                // Skip if rejected
+                // Skip the current observation and move onto the next one
                 if (rejectPose) {
                     continue;
                 }
@@ -146,7 +137,6 @@ public class Vision extends SubsystemBase {
                 // Send vision observation
                 consumer.accept(
                         observation.pose().toPose2d(),
-                        observation.pose().getRotation().toRotation2d(),
                         observation.timestamp(),
                         VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev));
             }
@@ -183,7 +173,7 @@ public class Vision extends SubsystemBase {
 
     @FunctionalInterface
     public interface VisionConsumer {
-        void accept(Pose2d visionRobotPoseMeters, Rotation2d visionRobotAngle, double timestampSeconds, Matrix<N3, N1> visionMeasurementStdDevs);
+        void accept(Pose2d visionRobotPoseMeters, double timestampSeconds, Matrix<N3, N1> visionMeasurementStdDevs);
     }
 
     public int[] getDetectedTagIds(int cameraIndex) {
@@ -191,9 +181,9 @@ public class Vision extends SubsystemBase {
     }
 
     public Optional<VisionIOLimelight> getVisionIOLimelight() {
-        if (visionIO instanceof VisionIOLimelight) {
-            return Optional.of((VisionIOLimelight) visionIO);
-    }
+        if (io[0] instanceof VisionIOLimelight) {
+            return Optional.of((VisionIOLimelight) io[0]);
+        }
         return Optional.empty();
     }
 }

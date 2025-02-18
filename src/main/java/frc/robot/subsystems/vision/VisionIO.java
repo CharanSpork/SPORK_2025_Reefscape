@@ -44,5 +44,19 @@ public interface VisionIO {
         PHOTONVISION
     }
 
+    // Keep all existing methods
     default void updateInputs(VisionIOInputs inputs) {}
+
+    // Add a method to check if this instance is a VisionIOLimelight
+    default boolean isVisionIOLimelight() {
+        return this instanceof VisionIOLimelight;
+    }
+
+    // Optionally cast to VisionIOLimelight safely
+    default VisionIOLimelight asVisionIOLimelight() {
+        if (this instanceof VisionIOLimelight) {
+            return (VisionIOLimelight) this;
+        }
+        throw new UnsupportedOperationException("This VisionIO instance is not a VisionIOLimelight");
+    }
 }

@@ -16,11 +16,15 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
@@ -111,15 +115,11 @@ public class RobotContainer {
         autoChooser.addOption("Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
         autoChooser.addOption("Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-        // Configure NavX to offset determined by Limelight
-        RobotContainer.vision.getVisionIOLimelight()
-        .flatMap(VisionIOLimelight::getVisionYaw)
-        .ifPresent(visionYaw -> 
-            RobotContainer.drive.getGyro().setAngleAdjustment(visionYaw.getDegrees() - RobotContainer.drive.getPose().getRotation().getDegrees())
-        );
-
         // Configure the button bindings
         new ControllerBindings(driverController, operatorController, drive).configure();
+
+        // Calibrate the Gryo from Vision Data
+        calibrateGyroWithVision().schedule();
     }
 
     public Command getAutonomousCommand() {
@@ -150,4 +150,66 @@ public class RobotContainer {
         Logger.recordOutput(
                 "FieldSimulation/Algae", SimulatedArena.getInstance().getGamePiecesArrayByType("Algae"));
     }
+
+    public Command calibrateGyroWithVision() {
+    return new Command() {
+        private boolean calibrated = false;
+
+        @Override
+        public void initialize() {
+            calibrated = false;
+            System.out.println("Starting gyro calibration with Limelight...");
+        }
+
+        @Override
+        public void execute() {
+            if (vision == null) {
+                System.out.println("Vision subsystem not available");
+                calibrated = true;
+                return;
+            }
+            Optional<VisionIOLimelight> limelightOptional = vision.getVisionIOLimelight();
+            if (limelightOptional.isPresent()) {
+                VisionIOLimelight limelight = limelightOptional.get();
+                Optional<Rotation2d> visionYaw = limelight.getVisionYaw();
+                if (visionYaw.isPresent()) {
+                    Rotation2d currentGyroAngle = drive.getRotation();
+                    double offset = currentGyroAngle.minus(visionYaw.get()).getDegrees();
+                    if (drive.getGyro() instanceof GyroIONavX) {
+                        ((GyroIONavX) drive.getGyro()).setAngleAdjustment(offset);
+                        System.out.println("Gyro calibrated with offset: " + offset + 
+                                          ", Vision yaw: " + visionYaw.get().getDegrees() + 
+                                          ", Gyro yaw: " + currentGyroAngle.getDegrees());
+                        calibrated = true;
+                    } else {
+                        System.out.println("Gyro is not GyroIONavX, cannot calibrate");
+                        calibrated = true;
+                    }
+                }
+            } else {
+                System.out.println("Limelight not available for calibration");
+                calibrated = true;
+            }
+        }
+
+        @Override
+        public boolean isFinished() {
+            return calibrated;
+        }
+
+        @Override
+        public void end(boolean interrupted) {
+            if (!calibrated) {
+                System.out.println("Calibration failed: No valid vision data within timeout");
+            } else if (!interrupted) {
+                System.out.println("Calibration completed successfully");
+            }
+        }
+
+        @Override
+        public Set<Subsystem> getRequirements() {
+            return Collections.singleton(drive);
+        }
+    }.withTimeout(5.0);
+}
 }

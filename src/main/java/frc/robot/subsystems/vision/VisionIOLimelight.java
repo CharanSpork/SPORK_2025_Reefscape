@@ -74,6 +74,8 @@ public class VisionIOLimelight implements VisionIO {
         // Read new pose observations from NetworkTables
         Set<Integer> tagIds = new HashSet<>();
         List<PoseObservation> poseObservations = new LinkedList<>();
+        
+        // Parse MegaTag1 Data from NetworkTables
         for (var rawSample : megatag1Subscriber.readQueue()) {
             if (rawSample.value.length == 0) continue;
             for (int i = 11; i < rawSample.value.length; i += 7) {
@@ -98,6 +100,8 @@ public class VisionIOLimelight implements VisionIO {
                     // Observation type
                     PoseObservationType.MEGATAG_1));
         }
+        
+        // Parse MegaTag2 Data from Network Tables
         for (var rawSample : megatag2Subscriber.readQueue()) {
             if (rawSample.value.length == 0) continue;
             for (int i = 11; i < rawSample.value.length; i += 7) {
@@ -150,28 +154,28 @@ public class VisionIOLimelight implements VisionIO {
 
     /** Parses the 3D pose from a Limelight botpose array. */
     private static Pose3d parsePose(double[] rawLLArray) {
-        return new Pose3d(
-                rawLLArray[0],
-                rawLLArray[1],
-                rawLLArray[2],
+        Pose3d parsePose = new Pose3d(
+                rawLLArray[0],                                      // X-axis
+                rawLLArray[1],                                      // Y-axis
+                rawLLArray[2],                                      // Z-axis
                 new Rotation3d(
-                        Units.degreesToRadians(rawLLArray[3]),
-                        Units.degreesToRadians(rawLLArray[4]),
-                        Units.degreesToRadians(rawLLArray[5])));
+                        Units.degreesToRadians(rawLLArray[3]),      // Roll
+                        Units.degreesToRadians(rawLLArray[4]),      // Pitch
+                        Units.degreesToRadians(rawLLArray[5])));    // Yaw
+                        return parsePose;
     }
 
     public Optional<Rotation2d> getVisionYaw() {
-    for (var rawSample : megatag2Subscriber.readQueue()) { // Prioritize MegaTag2
-        if (rawSample.value.length >= 6) {
-            return Optional.of(Rotation2d.fromDegrees(rawSample.value[5])); // Yaw is at index 5
+        for (var rawSample : megatag2Subscriber.readQueue()) { // Prioritize MegaTag2 for accuracy
+            if (rawSample.value.length >= 6) {
+                return Optional.of(Rotation2d.fromDegrees(rawSample.value[5]));
+            }
         }
-    }
-    for (var rawSample : megatag1Subscriber.readQueue()) { // Fallback to MegaTag1
-        if (rawSample.value.length >= 6) {
-            return Optional.of(Rotation2d.fromDegrees(rawSample.value[5])); // Yaw is at index 5
+        for (var rawSample : megatag1Subscriber.readQueue()) {
+            if (rawSample.value.length >= 6) {
+                return Optional.of(Rotation2d.fromDegrees(rawSample.value[5]));
+            }
         }
+        return Optional.empty(); // No valid yaw data
     }
-    return Optional.empty(); // No vision data available
-}
-
 }

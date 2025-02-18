@@ -291,9 +291,8 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
 
     /** Adds a new timestamped vision measurement. */
     @Override
-    public void accept(Pose2d visionRobotPoseMeters, Rotation2d visionRobotAngle, double timestampSeconds, Matrix<N3, N1> visionMeasurementStdDevs) {
+    public void accept(Pose2d visionRobotPoseMeters, double timestampSeconds, Matrix<N3, N1> visionMeasurementStdDevs) {
         if (!odometryResetToVision) {
-            System.out.println("Resetting Odometry to Initial Vision Pose: " + visionRobotPoseMeters);
             resetOdometry(visionRobotPoseMeters);
             odometryResetToVision = true;
         }
@@ -315,4 +314,5 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
     public GyroIO getGyro() {
         return gyroIO;
     }
+    
 }
