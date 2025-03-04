@@ -119,8 +119,8 @@ public class ModuleIOSpark implements ModuleIO {
         absoluteEncoder.getConfigurator().apply(config);
 
         // DISABLE updates from the CANcoder as they're no longer needed
-        absoluteEncoder.getAbsolutePosition().setUpdateFrequency(0);
-        absoluteEncoder.getVelocity().setUpdateFrequency(0);
+        //absoluteEncoder.getAbsolutePosition().setUpdateFrequency(0);
+        //absoluteEncoder.getVelocity().setUpdateFrequency(0);
     }
 
     private void configureDriveMotor() {
@@ -172,7 +172,7 @@ public class ModuleIOSpark implements ModuleIO {
         turnEncoder.setPosition(absolutePosition - zeroRotation.getRotations());
 
         // This value should be close to 0(within 2 decimal places) if the ZeroPosition is set correctly
-        //System.out.println("Module " + absoluteEncoder.getDeviceID() + " turn angle is " + turnEncoder.getPosition() / (360));
+        System.out.println("Module " + absoluteEncoder.getDeviceID() + " turn angle is " + (turnEncoder.getPosition() / (360)));
     }
 
     private Rotation2d getTurnPosition() {

@@ -82,8 +82,8 @@ public class ControllerBindings {
     //Doesn't need fix because you are pressing one button at a time anyways.
     private void configureTriggerBindings() {
         // Driver Controller Triggers (Primary)
-        new Trigger(() -> driverController.getRawAxis(activeProfile.rightTriggerAxis) > 0.5)
-            .whileTrue(Commands.run(() -> RobotActions.ShootCoral(driverController.getRawAxis(activeProfile.rightTriggerAxis))));
+        //new Trigger(() -> driverController.getRawAxis(activeProfile.rightTriggerAxis) > 0.5)
+        //    .whileTrue(Commands.run(() -> RobotActions.ShootCoral(driverController.getRawAxis(activeProfile.rightTriggerAxis))));
     
         // Operator Controller Triggers (Secondary)
         new Trigger(() -> operatorController.getRawAxis(activeProfile.rightTriggerAxis) > 0.5)
