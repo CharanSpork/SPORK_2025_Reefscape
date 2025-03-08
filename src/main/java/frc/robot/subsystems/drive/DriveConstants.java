@@ -22,6 +22,7 @@ public class DriveConstants {
     public static final double trackWidth = Units.inchesToMeters(23.75);
     public static final double wheelBase = Units.inchesToMeters(23.75);
     public static final double driveBaseRadius = Math.hypot(trackWidth / 2.0, wheelBase / 2.0);
+    public static final double tau = Math.PI*2;
 
     public static final Translation2d[] moduleTranslations = new Translation2d[] {
         new Translation2d(trackWidth / 2.0, wheelBase / 2.0),
@@ -34,10 +35,10 @@ public class DriveConstants {
     // Open Advantagescope and read degree value for straight forward. Next convert that degree value to radians.
     // Depending on whether you want to zero from the left or right, add or subtract the radian value from the motor's ZeroRotation.
     // Reference value in intializer in ModuleIOSpark to determine accuracy(comment set there to indicate line)
-    public static final Rotation2d frontLeftZeroRotation = new Rotation2d(0);// SwerveState = 0
-    public static final Rotation2d frontRightZeroRotation = new Rotation2d(0); //Straight at 0.92, SwerveState = 1
-    public static final Rotation2d backLeftZeroRotation = new Rotation2d(0);// SwerveState = 2
-    public static final Rotation2d backRightZeroRotation = new Rotation2d(0);// SwerveState = 3
+    public static final Rotation2d frontLeftZeroRotation = new Rotation2d(tau*0.466);// SwerveState = 0
+    public static final Rotation2d frontRightZeroRotation = new Rotation2d(tau*0.68); //Straight at 0.92, SwerveState = 1
+    public static final Rotation2d backLeftZeroRotation = new Rotation2d(tau*0.911);// SwerveState = 2
+    public static final Rotation2d backRightZeroRotation = new Rotation2d(tau*0.039);// SwerveState = 3
 
     // CAN IDs
     public static final int pigeonCanId = 9;
@@ -87,7 +88,7 @@ public class DriveConstants {
     public static final DCMotor turnGearbox = DCMotor.getNEO(1);
 
     // Turn encoder configuration
-    public static final boolean turnEncoderInverted = true;
+    public static final boolean turnEncoderInverted = false;
     public static final double turnEncoderPositionFactor = (2 * Math.PI) / turnMotorReduction; // Sensor rotations -> radians
     public static final double turnEncoderVelocityFactor = (2 * Math.PI) / 60.0; // Sensor RPM -> rad/sec
 

@@ -35,7 +35,7 @@ public class ControllerBindings {
     private void configureButtonBindings() {
         drive.setDefaultCommand(DriveCommands.joystickDrive(
                 drive,
-                () -> -driverController.getRawAxis(activeProfile.leftYAxis),  // Forward/backward
+                () -> driverController.getRawAxis(activeProfile.leftYAxis),  // Forward/backward
                 () -> -driverController.getRawAxis(activeProfile.leftXAxis),  // Strafe
                 () -> driverController.getRawAxis(activeProfile.rightXAxis)  // Rotation
         ));

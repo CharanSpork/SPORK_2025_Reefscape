@@ -164,15 +164,11 @@ public class ModuleIOSpark implements ModuleIO {
     }    
 
     private void initializeTurnOffset() {
-        // SET absolutePosition to Physical Encoders poisition
-        double absolutePosition = absoluteEncoder.getAbsolutePosition().getValueAsDouble();
-        
-        // SET turnEncoder (Relative Encoder) to the absolute encoders position
-        // This line translates absolute encoder data to relative encoder(turnEncoder) to be able to shut down the abolute encoder
-        turnEncoder.setPosition(absolutePosition - zeroRotation.getRotations());
-
-        // This value should be close to 0(within 2 decimal places) if the ZeroPosition is set correctly
-        System.out.println("Module " + absoluteEncoder.getDeviceID() + " turn angle is " + (turnEncoder.getPosition() / (360)));
+        double absolutePosition = absoluteEncoder.getAbsolutePosition().getValueAsDouble(); // Rotations (0.0 to 1.0)
+        double absolutePositionRad = absolutePosition * tau; // Convert to radians
+        double zeroOffsetRad = zeroRotation.getRadians(); // Radians
+        turnEncoder.setPosition(absolutePositionRad - zeroOffsetRad);
+        System.out.println("Module " + absoluteEncoder.getDeviceID() + " absolutePosition is " + absolutePosition + " rotations, offsetted position is " + turnEncoder.getPosition() + " radians");
     }
 
     private Rotation2d getTurnPosition() {
