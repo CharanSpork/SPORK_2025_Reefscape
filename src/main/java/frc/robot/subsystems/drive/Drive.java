@@ -189,6 +189,7 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
 
         // Send setpoints to modules
         for (int i = 0; i < 4; i++) {
+            System.out.println("Module " + i + " setpoint: " + setpointStates[i].angle.getRadians() + " rad");
             modules[i].runSetpoint(setpointStates[i]);
         }
 

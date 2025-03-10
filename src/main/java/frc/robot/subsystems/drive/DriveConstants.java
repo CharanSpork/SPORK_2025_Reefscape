@@ -35,28 +35,28 @@ public class DriveConstants {
     // Open Advantagescope and read degree value for straight forward. Next convert that degree value to radians.
     // Depending on whether you want to zero from the left or right, add or subtract the radian value from the motor's ZeroRotation.
     // Reference value in intializer in ModuleIOSpark to determine accuracy(comment set there to indicate line)
-    public static final Rotation2d frontLeftZeroRotation = new Rotation2d(tau*0.466);// SwerveState = 0
-    public static final Rotation2d frontRightZeroRotation = new Rotation2d(tau*0.68); //Straight at 0.92, SwerveState = 1
-    public static final Rotation2d backLeftZeroRotation = new Rotation2d(tau*0.911);// SwerveState = 2
-    public static final Rotation2d backRightZeroRotation = new Rotation2d(tau*0.039);// SwerveState = 3
+    public static final Rotation2d frontLeftZeroRotation = new Rotation2d(tau * 0.457);   // Encoder ID 1
+    public static final Rotation2d frontRightZeroRotation = new Rotation2d(tau * 0.654); // Encoder ID 3
+    public static final Rotation2d backLeftZeroRotation = new Rotation2d(tau * 0.129);    // Encoder ID 2
+    public static final Rotation2d backRightZeroRotation = new Rotation2d(tau * 0.746);   // Encoder ID 4
 
     // CAN IDs
     public static final int pigeonCanId = 9;
 
-    public static final int frontLeftDriveCanId = 8;
-    public static final int backLeftDriveCanId = 10;
-    public static final int frontRightDriveCanId = 18;
-    public static final int backRightDriveCanId = 20;
+    public static final int frontLeftDriveCanId = 2;
+    public static final int backLeftDriveCanId = 4;
+    public static final int frontRightDriveCanId = 6;
+    public static final int backRightDriveCanId = 8;
 
-    public static final int frontLeftTurnCanId = 5;
-    public static final int backLeftTurnCanId = 15;
-    public static final int frontRightTurnCanId = 17;
-    public static final int backRightTurnCanId = 21;
+    public static final int frontLeftTurnCanId = 1;
+    public static final int backLeftTurnCanId = 3;
+    public static final int frontRightTurnCanId = 5;
+    public static final int backRightTurnCanId = 7;
 
-    public static final int frontLeftEncoderCanId = 4;
-    public static final int frontRightEncoderCanId = 1;
+    public static final int frontLeftEncoderCanId = 1;
+    public static final int frontRightEncoderCanId = 3;
     public static final int backLeftEncoderCanId = 2;
-    public static final int backRightEncoderCanId = 3;
+    public static final int backRightEncoderCanId = 4;
 
     // Drive motor configuration
     public static final int driveMotorCurrentLimit = 40; // Amperes

@@ -47,6 +47,9 @@ public class ModuleIOSpark implements ModuleIO {
     private final SparkClosedLoopController driveController;
     private final SparkClosedLoopController turnController;
 
+    private long lastLogTime = 0;
+    private static final long LOG_INTERVAL_MS = 1000;
+
     public ModuleIOSpark(int module) {
         zeroRotation = switch (module) {
             case 0 -> frontLeftZeroRotation;
@@ -180,6 +183,7 @@ public class ModuleIOSpark implements ModuleIO {
         double setpoint = MathUtil.inputModulus(
             desiredRotation.getRadians(), turnPIDMinInput, turnPIDMaxInput
         );
+        System.out.println("Module " + absoluteEncoder.getDeviceID() + " setpoint: " + setpoint + " rad");
         turnController.setReference(setpoint, ControlType.kPosition);
     }
 
@@ -188,6 +192,14 @@ public class ModuleIOSpark implements ModuleIO {
         inputs.drivePositionRad = driveEncoder.getPosition();
         inputs.driveVelocityRadPerSec = driveEncoder.getVelocity();
         inputs.turnPosition = getTurnPosition();
+
+        long currentTime = System.currentTimeMillis();
+        // Log every 1s regardless of input (temporary workaround)
+        if (currentTime - lastLogTime >= LOG_INTERVAL_MS) {
+            System.out.println("Module " + absoluteEncoder.getDeviceID() + 
+                " turn position: " + getTurnPosition().getRadians() + " radians");
+            lastLogTime = currentTime;
+        }
     }
 
     @Override

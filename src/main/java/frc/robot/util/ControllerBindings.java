@@ -34,10 +34,22 @@ public class ControllerBindings {
     */
     private void configureButtonBindings() {
         drive.setDefaultCommand(DriveCommands.joystickDrive(
-                drive,
-                () -> driverController.getRawAxis(activeProfile.leftYAxis),  // Forward/backward
-                () -> -driverController.getRawAxis(activeProfile.leftXAxis),  // Strafe
-                () -> driverController.getRawAxis(activeProfile.rightXAxis)  // Rotation
+            drive,
+            () -> {
+                double y = -driverController.getRawAxis(activeProfile.leftYAxis);
+                return Math.abs(y) > 0.1 ? y : 0; // Deadband 0.1
+            },
+            () -> {
+                double x = driverController.getRawAxis(activeProfile.leftXAxis);
+                return Math.abs(x) > 0.1 ? x : 0; // Deadband 0.1
+            },
+            () -> {
+                double rotation = -driverController.getRawAxis(activeProfile.rightXAxis);
+                if (Math.abs(rotation) > 0.5) {
+                    System.out.println("Right X Input: " + rotation);
+                }
+                return Math.abs(rotation) > 0.1 ? rotation * 2.44 : 0; // Deadband 0.1, max 11.3 rad/s
+            }
         ));
 
 
