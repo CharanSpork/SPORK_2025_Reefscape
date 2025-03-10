@@ -87,6 +87,11 @@ public class DriveConstants {
     public static final double turnMotorReduction = (150/7); // ~21.4286
     public static final DCMotor turnGearbox = DCMotor.getNEO(1);
 
+    //Drive Inversion Things
+    public static final boolean FRONT_LEFT_DRIVE_INVERTED = false;
+    public static final boolean FRONT_RIGHT_DRIVE_INVERTED = true;
+    public static final boolean BACK_LEFT_DRIVE_INVERTED = false;
+    public static final boolean BACK_RIGHT_DRIVE_INVERTED = false;
     // Turn encoder configuration
     public static final boolean turnEncoderInverted = false;
     public static final double turnEncoderPositionFactor = (2 * Math.PI) / turnMotorReduction; // Sensor rotations -> radians

@@ -23,15 +23,20 @@ public class ElevatorCommands {
         error = ElevatorConstants.error;
     }
     //Set Height Command moves motor up/down to the wanted height
-    public void set_height(double wanted_height){
-        double diff = current_height - wanted_height;
-        while (Math.abs(diff) > error){
-            if (diff<0){
-                elevator_spark.set(elevator_speed);
+    public void set_height(double wanted_height, boolean stopper){
+        if (!stopper){
+            double diff = current_height - wanted_height;
+            while (Math.abs(diff) > error){
+                if (diff<0){
+                    elevator_spark.set(elevator_speed);
+                }
+                else if (diff>0){
+                    elevator_spark.set(-elevator_speed);
+                }  
             }
-            else if (diff>0){
-                elevator_spark.set(-elevator_speed);
-            }  
+        }
+        else {
+            System.out.println("Coral being pulled. Please wait");
         }
     }
     //This function returns the height of the elevator at that time

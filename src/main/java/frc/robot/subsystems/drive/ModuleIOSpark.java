@@ -173,7 +173,6 @@ public class ModuleIOSpark implements ModuleIO {
         turnEncoder.setPosition(absolutePositionRad - zeroOffsetRad);
         System.out.println("Module " + absoluteEncoder.getDeviceID() + " absolutePosition is " + absolutePosition + " rotations, offsetted position is " + turnEncoder.getPosition() + " radians");
     }
-
     private Rotation2d getTurnPosition() {
         return Rotation2d.fromRadians(turnEncoder.getPosition());
     }

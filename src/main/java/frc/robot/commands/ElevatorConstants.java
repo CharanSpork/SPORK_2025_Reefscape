@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 public class ElevatorConstants{
 
-    public static final double coder_height = 10;
+    public static final double coder_height = 6.5;
     public static final double L1 = 16 - coder_height;
     public static final double L2 = 32 - coder_height;
     public static final double L3 = 48 - coder_height;
