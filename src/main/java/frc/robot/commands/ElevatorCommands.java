@@ -29,6 +29,7 @@ public class ElevatorCommands {
         error = ElevatorConstants.error;
     }
     //Set Height Command moves motor up/down to the wanted height
+    //Put !stopper in place of true in the if statement
     public void set_height(double wanted_height, boolean stopper){
         if (true){
             double diff = current_height - wanted_height;

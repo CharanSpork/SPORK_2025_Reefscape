@@ -23,13 +23,15 @@ public class RobotActions {
 
     // The functions below are for moving the elevator up and down to the level you want
     public void movetoL1() {
-        System.out.println("Elevattor to L1");
+        System.out.println("Elevator to L1");
         elevator.set_height(ElevatorConstants.L1, stopper);
     }
     public void movetoL2() {
+        System.out.println("Elevator to L2");
         elevator.set_height(ElevatorConstants.L2, stopper);
     }
     public void movetoL3() {
+        System.out.println("Elevator to L3");
         elevator.set_height(ElevatorConstants.L3, stopper);
     }
     public void movetoL4() {

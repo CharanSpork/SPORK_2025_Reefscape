@@ -64,13 +64,16 @@ public class ControllerBindings {
        
             // Secondary Controller face buttons
         operatorController.button(activeProfile.buttonA)
-            .whileTrue(Commands.run(() -> System.out.println("Operator A Button Pushed")));
+            .onTrue(Commands.run(() -> robotActions.movetoL4()));
 
         operatorController.button(activeProfile.buttonB)
-            .whileTrue(Commands.run(() -> System.out.println("Operator B Button Pushed")));
+            .onTrue(Commands.run(() -> robotActions.movetoL3()));
+        
+        operatorController.button(activeProfile.buttonY)
+            .onTrue(Commands.run(() -> robotActions.movetoL2()));
 
         operatorController.button(activeProfile.buttonX)
-            .onTrue(Commands.run(() -> robotActions.movetoL2()));
+            .onTrue(Commands.run(() -> robotActions.movetoL1()));
             }
     //Cannot press same DPad button twice, must press another DPad button before pressing again.
     //Doesn't need fix because you are pressing one button at a time anyways.
