@@ -37,7 +37,7 @@ public class DriveConstants {
     // Reference value in intializer in ModuleIOSpark to determine accuracy(comment set there to indicate line)
     public static final Rotation2d frontLeftZeroRotation = new Rotation2d(tau * 0.457);   // Encoder ID 1
     public static final Rotation2d frontRightZeroRotation = new Rotation2d(tau * 0.654); // Encoder ID 3
-    public static final Rotation2d backLeftZeroRotation = new Rotation2d(tau * 0.129);    // Encoder ID 2
+    public static final Rotation2d backLeftZeroRotation = new Rotation2d(tau * 0.082);    // Encoder ID 2
     public static final Rotation2d backRightZeroRotation = new Rotation2d(tau * 0.746);   // Encoder ID 4
 
     // CAN IDs
@@ -72,10 +72,10 @@ public class DriveConstants {
 
     // Drive PID configuration
     public static final double driveKp = 0.01;   // 0.06
-    public static final double driveKd = 0.0001;   // 0.007
+    public static final double driveKi = 0.00;
+    public static final double driveKd = 0.00;   // 0.007
     public static final double driveKs = 0.001;
     public static final double driveKv = 0.1;
-    public static final double driveKi = 0.00;
     public static final double driveSimP = 0.01;
     public static final double driveSimD = 0.0001;
     public static final double driveSimKs = 0.001;
@@ -86,11 +86,6 @@ public class DriveConstants {
     public static final double turnMotorReduction = (150/7); // ~21.4286
     public static final DCMotor turnGearbox = DCMotor.getNEO(1);
 
-    //Drive Inversion Things
-    public static final boolean FRONT_LEFT_DRIVE_INVERTED = false;
-    public static final boolean FRONT_RIGHT_DRIVE_INVERTED = true;
-    public static final boolean BACK_LEFT_DRIVE_INVERTED = false;
-    public static final boolean BACK_RIGHT_DRIVE_INVERTED = false;
     // Turn encoder configuration
     public static final boolean turnEncoderInverted = false;
     public static final double turnEncoderPositionFactor = (2 * Math.PI) / turnMotorReduction; // Sensor rotations -> radians
@@ -104,8 +99,8 @@ public class DriveConstants {
     // Turn PID configuration
     // Drive PID and turn PID must have a certain ratio Turn:Drive should be 10:1 approximately
     // Try to set turn PID p to about 0.10 and the i and d to 0(or else it will go haywire)
-    public static final double turnKp = 1.00;  // Proportional gain
-    public static final double turnKi = 0.00; // Small integral to address minor steady-state errors
+    public static final double turnKp = 0.30;  // Proportional gain
+    public static final double turnKi = 0.001; // Small integral to address minor steady-state errors
     public static final double turnKd = 0.00;  // Derivative to dampen oscillations    
     public static final double turnSimP = 2.00;
     public static final double turnSimD = 0.001;

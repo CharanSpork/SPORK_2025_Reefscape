@@ -4,18 +4,22 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Robot;
+import frc.robot.commands.CoralOutputSubsystem;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.ElevatorCommands;;
+import frc.robot.commands.ElevatorSubsystem;
+import frc.robot.commands.PrimeShooterCommand;
+import frc.robot.commands.SetElevatorHeightCommand;
+import frc.robot.commands.ShootCoralCommand;;
 
 public class ControllerBindings {
     private final CommandXboxController driverController;
     private final CommandXboxController operatorController; 
     private final Drive drive;
     private final ControllerProfiles.ControllerProfile activeProfile;
-    private final RobotActions robotActions = new RobotActions();
+    private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+    private final CoralOutputSubsystem coralOutput = new CoralOutputSubsystem();
 
     private int lastPOV = -1; // Tracks the previous POV state
 
@@ -43,11 +47,11 @@ public class ControllerBindings {
                 return Math.abs(y) > 0.1 ? y : 0; // Deadband 0.1
             },
             () -> {
-                double x = driverController.getRawAxis(activeProfile.leftXAxis);
+                double x = -driverController.getRawAxis(activeProfile.leftXAxis);
                 return Math.abs(x) > 0.1 ? x : 0; // Deadband 0.1
             },
             () -> {
-                double rotation = driverController.getRawAxis(activeProfile.rightXAxis);
+                double rotation = -driverController.getRawAxis(activeProfile.rightXAxis);
                 return Math.abs(rotation) > 0.1 ? rotation :0;
             }
         ));
@@ -64,16 +68,16 @@ public class ControllerBindings {
        
             // Secondary Controller face buttons
         operatorController.button(activeProfile.buttonA)
-            .onTrue(Commands.run(() -> robotActions.movetoL4()));
+            .onTrue(new SetElevatorHeightCommand(elevator, 56, false));
 
         operatorController.button(activeProfile.buttonB)
-            .onTrue(Commands.run(() -> robotActions.movetoL3()));
+            .onTrue(new SetElevatorHeightCommand(elevator, 28.5, false));
         
         operatorController.button(activeProfile.buttonY)
-            .onTrue(Commands.run(() -> robotActions.movetoL2()));
+            .onTrue(new SetElevatorHeightCommand(elevator, 14, false));
 
         operatorController.button(activeProfile.buttonX)
-            .onTrue(Commands.run(() -> robotActions.movetoL1()));
+            .onTrue(new SetElevatorHeightCommand(elevator, 3.3, false));
             }
     //Cannot press same DPad button twice, must press another DPad button before pressing again.
     //Doesn't need fix because you are pressing one button at a time anyways.
@@ -84,7 +88,8 @@ public class ControllerBindings {
     
         // Operator Controller Triggers (Secondary)
         new Trigger(() -> operatorController.getRawAxis(activeProfile.rightTriggerAxis) > 0.5)
-            .whileTrue(Commands.run(() -> System.out.println("Operator Right Trigger Pushed - Shoot")));
+            .onTrue(new ShootCoralCommand(coralOutput,0.6)
+            .andThen(new SetElevatorHeightCommand(elevator, 3.3, false)));
         
             // Primary Controller DPad Setttings
         new Trigger(() -> {

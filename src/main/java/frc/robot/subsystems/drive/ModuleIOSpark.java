@@ -131,7 +131,7 @@ public class ModuleIOSpark implements ModuleIO {
         driveConfig
             .idleMode(com.revrobotics.spark.config.SparkBaseConfig.IdleMode.kBrake)
             .smartCurrentLimit(driveMotorCurrentLimit)
-            .inverted(false)
+            .inverted(true)
             .voltageCompensation(12.0);
 
         driveConfig.encoder
@@ -150,7 +150,7 @@ public class ModuleIOSpark implements ModuleIO {
         turnConfig
             .idleMode(com.revrobotics.spark.config.SparkBaseConfig.IdleMode.kBrake)
             .smartCurrentLimit(turnMotorCurrentLimit)
-            .inverted(turnEncoderInverted)
+            .inverted(true)
             .voltageCompensation(12.0);
     
         turnConfig.encoder
