@@ -14,6 +14,9 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.util.PathPlannerLogging;
+
 import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import java.util.Collections;
@@ -23,6 +26,9 @@ import java.util.Set;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -32,6 +38,8 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.*;
 import frc.robot.util.ControllerBindings;
+import frc.robot.util.RobotActions;
+
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
@@ -52,8 +60,19 @@ public class RobotContainer {
     private final CommandXboxController driverController = new CommandXboxController(0);
     private final CommandXboxController operatorController = new CommandXboxController(1);
     private final LoggedDashboardChooser<Command> autoChooser;
+    private final CoralOutput CoralOutput = new CoralOutput();
+    private final Field2d field = new Field2d();
+
+
+
     
-   
+    public class Robot extends TimedRobot {
+        private double powerDouble = 0.8;
+        public void robotInit() {
+            NamedCommands.registerCommand("CoralOutput", RobotActions.ShootCoral(0.8)); 
+    }
+}
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         switch (Constants.currentMode) {
@@ -174,6 +193,22 @@ public class RobotContainer {
             }
         } else {
             System.out.println("Limelight not available");
-        }
+        }}
+        
+    public void SmartDashboardLogging() {
+        SmartDashboard.putData("Field", field);
+
+        PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
+            field.setRobotPose(pose);
+        });
+
+        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+            field.getObject("target pose").setPose(pose);
+        });
+
+        PathPlannerLogging.setLogActivePathCallback((poses) -> {
+            field.getObject("path").setPoses(poses);
+        });
     }
 }
+
