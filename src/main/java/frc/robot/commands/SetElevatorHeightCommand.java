@@ -58,4 +58,9 @@ public class SetElevatorHeightCommand extends Command {
         }
         System.out.println("Elevator stopped at height: " + elevator.getHeight());
     }
+
+    public Command SetElevatorHeightCommand(ElevatorSubsystem elevator2, double d, boolean b) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'SetElevatorHeightCommand'");
+    }
 }

@@ -11,12 +11,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "CoralOutput"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "To_HPSRight_Red2"
@@ -35,12 +29,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "CoralOutput"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "To_HPSRight_Red"
@@ -56,12 +44,6 @@
           "type": "path",
           "data": {
             "pathName": "ReplacementRedLeft"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralOutput"
           }
         }
       ]

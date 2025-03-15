@@ -21,6 +21,7 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 
@@ -40,10 +41,14 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ElevatorSubsystem;
 import frc.robot.commands.SetElevatorHeightCommand;
 import frc.robot.commands.ShootCoralCommand;
+import frc.robot.commands.ElevatorSubsystem;
+import frc.robot.commands.SetElevatorHeightCommand;
+import frc.robot.commands.ShootCoralCommand;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.*;
 import frc.robot.util.ControllerBindings;
 import frc.robot.util.RobotActions;
+import frc.robot.commands.CoralOutputSubsystem;
 
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -72,13 +77,15 @@ public class RobotContainer {
 
     
     public class Robot extends TimedRobot {
+        @Override
         public void robotInit() {
-            NamedCommands.registerCommand("CoralOutput", new ShootCoralCommand(coralouter, 0.5));
+            // Register your commands in NamedCommands (which stores them as Supplier<Command>)
+            NamedCommands.registerCommand("CoralOutput", new ShootCoralCommand(coralouter, 0.6));
             NamedCommands.registerCommand("Elevator L1", new SetElevatorHeightCommand(elevator, 3.3, false));
             NamedCommands.registerCommand("Elevator L2", new SetElevatorHeightCommand(elevator, 14, false));
             NamedCommands.registerCommand("Elevator L3", new SetElevatorHeightCommand(elevator, 28.5, false));
             NamedCommands.registerCommand("Elevator L4", new SetElevatorHeightCommand(elevator, 56, false));
-    }
+        }   
 }
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */

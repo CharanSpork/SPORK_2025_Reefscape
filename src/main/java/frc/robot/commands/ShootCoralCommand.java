@@ -10,11 +10,11 @@ public class ShootCoralCommand extends Command {
     private final Timer timer;
     private static final double SHOOT_DURATION = 0.5; // Seconds to run motor (adjust as needed)
 
-    public ShootCoralCommand(CoralOutputSubsystem coralOutput, double shootPower) {
-        this.coralOutput = coralOutput;
+    public ShootCoralCommand(CoralOutputSubsystem coralouter, double shootPower) {
+        this.coralOutput = coralouter;
         this.shootPower = shootPower;
         this.timer = new Timer();
-        addRequirements(coralOutput);
+        addRequirements(coralouter);
     }
 
     @Override
