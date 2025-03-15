@@ -20,6 +20,7 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,10 +37,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.CoralOutputSubsystem;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ElevatorSubsystem;
+import frc.robot.commands.SetElevatorHeightCommand;
+import frc.robot.commands.ShootCoralCommand;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.*;
 import frc.robot.util.ControllerBindings;
 import frc.robot.util.RobotActions;
+import frc.robot.commands.CoralOutputSubsystem;
 
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -61,17 +66,25 @@ public class RobotContainer {
     private final CommandXboxController driverController = new CommandXboxController(0);
     private final CommandXboxController operatorController = new CommandXboxController(1);
     private final LoggedDashboardChooser<Command> autoChooser;
-    private final CoralOutputSubsystem CoralOutput = new CoralOutputSubsystem();
+    private ElevatorSubsystem elevator;
+    private final CoralOutputSubsystem coralOutput = new CoralOutputSubsystem();
     private final Field2d field = new Field2d();
+    private CoralOutputSubsystem coralouter;
+
 
 
 
     
     public class Robot extends TimedRobot {
-        private double powerDouble = 0.6;
+        @Override
         public void robotInit() {
-            NamedCommands.registerCommand("CoralOutput", CoralOutput.shoot(0.6)); 
-    }
+            // Register your commands in NamedCommands (which stores them as Supplier<Command>)
+            NamedCommands.registerCommand("CoralOutput", new ShootCoralCommand(coralouter, 0.6));
+            NamedCommands.registerCommand("Elevator L1", new SetElevatorHeightCommand(elevator, 3.3, false));
+            NamedCommands.registerCommand("Elevator L2", new SetElevatorHeightCommand(elevator, 14, false));
+            NamedCommands.registerCommand("Elevator L3", new SetElevatorHeightCommand(elevator, 28.5, false));
+            NamedCommands.registerCommand("Elevator L4", new SetElevatorHeightCommand(elevator, 56, false));
+        }   
 }
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
