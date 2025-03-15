@@ -3,6 +3,8 @@ package frc.robot.commands;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CoralOutputSubsystem extends SubsystemBase {
@@ -46,15 +48,17 @@ public class CoralOutputSubsystem extends SubsystemBase {
         isPulling = false;
     }
 
-    public void shoot(double power) {
+    public Command shoot(double power) {
+        return new InstantCommand(() ->  {
         if (!isShooting) {
             shooterMotor.set(power);
             isShooting = true;
         } else {
             shooterMotor.set(0);
             isShooting = false;
-        }
-    }
+        };
+    });
+}
 
     public boolean isShooterLazerBlocked() {
         return !shooterLazer.get(); // False = blocked for break-beam

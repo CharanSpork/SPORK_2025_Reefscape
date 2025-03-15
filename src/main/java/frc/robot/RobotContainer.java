@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.CoralOutputSubsystem;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.*;
@@ -60,16 +61,16 @@ public class RobotContainer {
     private final CommandXboxController driverController = new CommandXboxController(0);
     private final CommandXboxController operatorController = new CommandXboxController(1);
     private final LoggedDashboardChooser<Command> autoChooser;
-    private final CoralOutput CoralOutput = new CoralOutput();
+    private final CoralOutputSubsystem CoralOutput = new CoralOutputSubsystem();
     private final Field2d field = new Field2d();
 
 
 
     
     public class Robot extends TimedRobot {
-        private double powerDouble = 0.8;
+        private double powerDouble = 0.6;
         public void robotInit() {
-            NamedCommands.registerCommand("CoralOutput", RobotActions.ShootCoral(0.8)); 
+            NamedCommands.registerCommand("CoralOutput", CoralOutput.shoot(0.6)); 
     }
 }
 
