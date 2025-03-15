@@ -138,6 +138,8 @@ public class RobotContainer {
         // Set up SysId routines
         autoChooser.addDefaultOption("UDY_BA_Mid_L1_1", new PathPlannerAuto("UDY_BA_Mid_L1_1"));
         autoChooser.addOption("UDY_RA_MID_L1_1", new PathPlannerAuto("UDY_RA_MID_L1_1"));
+        autoChooser.addOption("UDY_BA_LW_L1_3", new PathPlannerAuto("UDY_BA_LW_L1_3"));
+        autoChooser.addOption("UDY_RA_LW_L1_3", new PathPlannerAuto("UDY_RA_LW_L1_3"));
         autoChooser.addOption("UDY_BA_Mid_L4_1", new PathPlannerAuto("UDY_BA_Mid_L4_1"));
         autoChooser.addOption("UDY_RA_Mid_L4_1", new PathPlannerAuto("UDY_RA_Mid_L4_1"));
         autoChooser.addOption("UDY_BA_LW_L2_3", new PathPlannerAuto("UDY_BA_LW_L2_3"));
