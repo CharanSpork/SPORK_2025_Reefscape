@@ -56,8 +56,8 @@ public class RobotContainer {
     private final CommandXboxController operatorController = new CommandXboxController(1);
     private final LoggedDashboardChooser<Command> autoChooser;
     private final Field2d field = new Field2d();
-    private ElevatorSubsystem elevator;
-    private CoralOutputSubsystem coralouter;
+    private ElevatorSubsystem elevator = new ElevatorSubsystem();
+    private CoralOutputSubsystem coralouter = new CoralOutputSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -110,6 +110,13 @@ public class RobotContainer {
 
            
         }
+
+                // Register your commands in NamedCommands (which stores them as Supplier<Command>)
+        NamedCommands.registerCommand("CoralOutput", new ShootCoralCommand(coralouter, 0.6, false));
+        NamedCommands.registerCommand("ElevatorL1", new SetElevatorHeightCommand(elevator, 3.3, false));
+        NamedCommands.registerCommand("ElevatorL2", new SetElevatorHeightCommand(elevator, 14, false));
+        NamedCommands.registerCommand("ElevatorL3", new SetElevatorHeightCommand(elevator, 28.5, false));
+        NamedCommands.registerCommand("ElevatorL4", new SetElevatorHeightCommand(elevator, 56, false));
         
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -130,16 +137,9 @@ public class RobotContainer {
         autoChooser.addOption("POS_RA_Middle_1", new PathPlannerAuto("POS_RA_Middle_1"));
         autoChooser.addOption("POS_BA_Middle_1", new PathPlannerAuto("POS_BA_Middle_1"));
 
-        // Register your commands in NamedCommands (which stores them as Supplier<Command>)
-        /* NamedCommands.registerCommand("CoralOutput", new ShootCoralCommand(coralouter, 0.6, false));
-        NamedCommands.registerCommand("Elevator L1", new SetElevatorHeightCommand(elevator, 3.3, false));
-        NamedCommands.registerCommand("Elevator L2", new SetElevatorHeightCommand(elevator, 14, false));
-        NamedCommands.registerCommand("Elevator L3", new SetElevatorHeightCommand(elevator, 28.5, false));
-        NamedCommands.registerCommand("Elevator L4", new SetElevatorHeightCommand(elevator, 56, false)); */
-
 
         // Configure the button bindings
-        new ControllerBindings(driverController, operatorController, drive).configure();
+        new ControllerBindings(driverController, operatorController, drive, elevator, coralouter).configure();
     }
 
     public Command getAutonomousCommand() {

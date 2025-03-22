@@ -7,7 +7,19 @@
         {
           "type": "path",
           "data": {
+            "pathName": "180Move_Red"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Straight_Red_Auto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorL1"
           }
         },
         {

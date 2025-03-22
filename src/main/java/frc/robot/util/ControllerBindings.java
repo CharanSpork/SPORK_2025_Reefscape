@@ -18,15 +18,17 @@ public class ControllerBindings {
     private final CommandXboxController operatorController; 
     private final Drive drive;
     private final ControllerProfiles.ControllerProfile activeProfile;
-    private final ElevatorSubsystem elevator = new ElevatorSubsystem();
-    private final CoralOutputSubsystem coralOutput = new CoralOutputSubsystem();
+    private final ElevatorSubsystem elevator;
+    private final CoralOutputSubsystem coralOutput;
 
     private int lastPOV = -1; // Tracks the previous POV state
 
-    public ControllerBindings(CommandXboxController driverController,CommandXboxController operatorController, Drive driveSubsystem) {
+    public ControllerBindings(CommandXboxController driverController,CommandXboxController operatorController, Drive driveSubsystem, ElevatorSubsystem elevator, CoralOutputSubsystem coralOutput) {
         this.driverController = driverController;
         this.operatorController = operatorController;
         this.drive = driveSubsystem;
+        this.elevator = elevator;
+        this.coralOutput = coralOutput;
 
         // Detect and set the active controller profile
         this.activeProfile = ControllerProfiles.detectControllerProfile();
