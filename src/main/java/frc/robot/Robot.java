@@ -16,8 +16,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.drive.Drive;
+import frc.robot.games.reefscape2025.*;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -35,9 +34,6 @@ import org.littletonrobotics.urcl.URCL;
 public class Robot extends LoggedRobot {
     private Command autonomousCommand;
     private RobotContainer robotContainer;
-    private boolean firstPeriodic = true;
-    private Drive drive;
-    private Timer Timer;
 
     public Robot() {
         // Record metadata
@@ -124,16 +120,6 @@ public class Robot extends LoggedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        //LAST RESORT DOOOOO NOOOOOOT UUUUUSEE
-        //Timer.start();
-        //double currenttime = Timer.get();
-        //DoubleSupplier xsupp = () -> 0.0;
-        //DoubleSupplier ysupp = () -> - (1 - currenttime);
-        //DoubleSupplier osupp = () -> 0.0;
-        //while (currenttime <= 1) {
-        //    DriveCommands.joystickDrive(drive,xsupp,ysupp,osupp);
-        //}
-        //Timer.stop();
         
         autonomousCommand = robotContainer.getAutonomousCommand();
 
