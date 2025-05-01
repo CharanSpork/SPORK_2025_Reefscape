@@ -28,11 +28,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+
 import frc.robot.common.subsystems.drive.*;
 import frc.robot.common.subsystems.vision.*;
+
 import frc.robot.games.reefscape2025.commands.SetElevatorHeightCommand;
 import frc.robot.games.reefscape2025.commands.ShootCoralCommand;
 import frc.robot.games.reefscape2025.subsystems.drive.DriveConstants;
+
+import frc.robot.GlobalConstants.runMode;
 
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -61,7 +65,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        switch (Constants.currentMode) {
+        switch (runMode.currentMode) {
             case REAL:
                 /* Real robot, instantiate hardware IO implementations */
                 drive = new Drive(
@@ -121,16 +125,6 @@ public class RobotContainer {
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
         // Set up SysId routines
-        // autoChooser.addDefaultOption("UDY_BA_Mid_L1_1", new PathPlannerAuto("UDY_BA_Mid_L1_1"));
-        /*autoChooser.addOption("UDY_RA_MID_L1_1", new PathPlannerAuto("UDY_RA_MID_L1_1"));
-        autoChooser.addOption("UDY_BA_LW_L1_3", new PathPlannerAuto("UDY_BA_LW_L1_3"));
-        autoChooser.addOption("UDY_RA_LW_L1_3", new PathPlannerAuto("UDY_RA_LW_L1_3"));
-        autoChooser.addOption("UDY_BA_Mid_L4_1", new PathPlannerAuto("UDY_BA_Mid_L4_1"));
-        autoChooser.addOption("UDY_RA_Mid_L4_1", new PathPlannerAuto("UDY_RA_Mid_L4_1"));
-        autoChooser.addOption("UDY_BA_LW_L2_3", new PathPlannerAuto("UDY_BA_LW_L2_3"));
-        autoChooser.addOption("UDY_RA_LW_L2_3", new PathPlannerAuto("UDY_RA_LW_L2_3"));
-        autoChooser.addOption("UDY_BA_LW_L4_3", new PathPlannerAuto("UDY_BA_LW_L4_3"));
-        autoChooser.addOption("UDY_RA_LW_L4_3", new PathPlannerAuto("UDY_RA_LW_L4_3")); */
         autoChooser.addOption("BlueMoveBack", new PathPlannerAuto("BlueMoveBack"));
         autoChooser.addOption("RedMoveBack", new PathPlannerAuto("RedMoveBack"));
         autoChooser.addOption("POS_RA_Middle_1", new PathPlannerAuto("POS_RA_Middle_1"));
@@ -147,21 +141,21 @@ public class RobotContainer {
         return autoChooser.get();
     }
     public void resetSimulationField() {
-        if (Constants.currentMode != Constants.Mode.SIM) return;
+        if (runMode.currentMode != runMode.Mode.SIM) return;
 
         driveSimulation.setSimulationWorldPose(new Pose2d(3, 3, new Rotation2d()));
         SimulatedArena.getInstance().resetFieldForAuto();
     }
 
     public void displaySimFieldToAdvantageScope() {
-        if (Constants.currentMode != Constants.Mode.SIM) return;
+        if (runMode.currentMode != runMode.Mode.SIM) return;
 
         Logger.recordOutput("FieldSimulation/RobotPosition", driveSimulation.getSimulatedDriveTrainPose());
         Logger.recordOutput("FieldSimulation/Notes", SimulatedArena.getInstance().getGamePiecesArrayByType("Note"));
     }
 
     public void updateSimulation() {
-        if (Constants.currentMode != Constants.Mode.SIM) return;
+        if (runMode.currentMode != runMode.Mode.SIM) return;
 
         SimulatedArena.getInstance().simulationPeriodic();
         Logger.recordOutput("FieldSimulation/RobotPosition", driveSimulation.getSimulatedDriveTrainPose());

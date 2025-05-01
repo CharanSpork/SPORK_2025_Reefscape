@@ -25,6 +25,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.littletonrobotics.urcl.URCL;
 
 import frc.robot.games.reefscape2025.*;
+import frc.robot.GlobalConstants.runMode;
 
 
 /**
@@ -60,7 +61,7 @@ public class Robot extends LoggedRobot {
         }
 
         // Set up data receivers & replay source
-        switch (Constants.currentMode) {
+        switch (runMode.currentMode) {
             case REAL:
                 // Running on a real robot, log to a USB stick ("/U/logs")
                 Logger.addDataReceiver(new WPILOGWriter());

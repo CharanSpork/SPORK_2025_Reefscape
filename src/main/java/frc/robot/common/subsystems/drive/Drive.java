@@ -14,8 +14,6 @@
 package frc.robot.common.subsystems.drive;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.games.reefscape2025.subsystems.drive.DriveConstants.*;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -44,13 +42,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.common.subsystems.vision.Vision;
 import frc.robot.common.util.LocalADStarAK;
-import frc.robot.games.reefscape2025.Constants;
-import frc.robot.games.reefscape2025.Constants.Mode;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
+
+import frc.robot.GlobalConstants.runMode;
+import frc.robot.GlobalConstants.driveConstants;
 
 public class Drive extends SubsystemBase implements Vision.VisionConsumer {
     private boolean odometryResetToVision = false;
@@ -65,7 +63,7 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
     private long lastLogTime = 0;
     private static final long LOG_INTERVAL_MS = 1000; // 1 second
 
-    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(moduleTranslations);
+    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(driveConstants.moduleTranslations);
     private Rotation2d rawGyroRotation = new Rotation2d();
     private SwerveModulePosition[] lastModulePositions = // For delta tracking
             new SwerveModulePosition[] {
@@ -98,7 +96,7 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
                 this::getChassisSpeeds,
                 this::runVelocity,
                 new PPHolonomicDriveController(new PIDConstants(0.01, 0.0, 0.0), new PIDConstants(0.01, 0.0, 0.0)),
-                ppConfig,
+                driveConstants.ppConfig,
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this);
         Pathfinding.setPathfinder(new LocalADStarAK());
@@ -173,7 +171,7 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
         //System.out.println("DRIVE.JAVA - Current robot pose is " + getPose());
 
         // Update gyro alert
-        gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
+        gyroDisconnectedAlert.set(!gyroInputs.connected && runMode.currentMode != runMode.Mode.SIM);
     }
 
     /**
@@ -185,7 +183,7 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
         // Calculate module setpoints
         speeds = ChassisSpeeds.discretize(speeds, 0.02);
         SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(speeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, maxSpeedMetersPerSec);
+        SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, driveConstants.maxSpeedMetersPerSec);
 
         // Log unoptimized setpoints
         Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
@@ -225,7 +223,7 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
     public void stopWithX() {
         Rotation2d[] headings = new Rotation2d[4];
         for (int i = 0; i < 4; i++) {
-            headings[i] = moduleTranslations[i].getAngle();
+            headings[i] = driveConstants.moduleTranslations[i].getAngle();
         }
         kinematics.resetHeadings(headings);
         stop();
@@ -314,12 +312,12 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
 
     /** Returns the maximum linear speed in meters per sec. */
     public double getMaxLinearSpeedMetersPerSec() {
-        return maxSpeedMetersPerSec;
+        return driveConstants.maxSpeedMetersPerSec;
     }
 
     /** Returns the maximum angular speed in radians per sec. */
     public double getMaxAngularSpeedRadPerSec() {
-        return maxSpeedMetersPerSec / driveBaseRadius;
+        return driveConstants.maxSpeedMetersPerSec / driveConstants.driveBaseRadius;
     }
 
     public GyroIO getGyro() {
