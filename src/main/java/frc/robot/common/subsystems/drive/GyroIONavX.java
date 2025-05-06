@@ -17,7 +17,6 @@ import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-
 import frc.robot.GlobalConstants.driveConstants;
 
 import java.util.Queue;
@@ -53,4 +52,5 @@ public class GyroIONavX implements GyroIO {
         navX.setAngleAdjustment(offset);
         System.out.println("[NavX] Setting Angle Adjustment: " + offset + " degrees");
     }
+
 }

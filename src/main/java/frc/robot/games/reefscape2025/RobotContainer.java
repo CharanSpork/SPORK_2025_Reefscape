@@ -37,6 +37,7 @@ import frc.robot.games.reefscape2025.commands.ShootCoralCommand;
 import frc.robot.games.reefscape2025.subsystems.drive.DriveConstants;
 
 import frc.robot.GlobalConstants.runMode;
+import frc.robot.Robot;
 
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
