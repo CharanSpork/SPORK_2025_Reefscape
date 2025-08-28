@@ -95,10 +95,13 @@ public class ModuleIOSpark implements ModuleIO {
         turnController = turnSpark.getClosedLoopController();
 
         configureCANcoder();
-        // Configure conversion factors BEFORE setting the initial position so setPosition uses radians
-        configureTurnMotor();
-        configureDriveMotor();
+        // Configure turn motor basic settings and conversion factors BEFORE setting position
+        configureTurnMotorBasic();
+        // Initialize the turn offset BEFORE configuring closed-loop control
         initializeTurnOffset();
+        // Configure closed-loop control AFTER position is properly set
+        configureTurnMotorClosedLoop();
+        configureDriveMotor();
     }
 
     private void configureCANcoder() {
@@ -127,7 +130,7 @@ public class ModuleIOSpark implements ModuleIO {
         driveSpark.configure(driveConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
     }
 
-    private void configureTurnMotor() {
+    private void configureTurnMotorBasic() {
         var turnConfig = new com.revrobotics.spark.config.SparkMaxConfig();
         turnConfig
             .idleMode(com.revrobotics.spark.config.SparkBaseConfig.IdleMode.kBrake)
@@ -139,13 +142,22 @@ public class ModuleIOSpark implements ModuleIO {
             .positionConversionFactor(driveConstants.turnEncoderPositionFactor) // Apply gear reduction correction
             .velocityConversionFactor(driveConstants.turnEncoderVelocityFactor); // Correct velocity scaling
     
+        // Apply basic configuration without closed-loop control
+        turnSpark.configure(turnConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
+    }
+    
+    private void configureTurnMotorClosedLoop() {
+        var turnConfig = new com.revrobotics.spark.config.SparkMaxConfig();
+        
+        // Configure closed-loop control after position has been properly initialized
         turnConfig.closedLoop
             .feedbackSensor(com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
             .pidf(driveConstants.turnKp, driveConstants.turnKi, driveConstants.turnKd, 0.0)
             .positionWrappingEnabled(true)
             .positionWrappingInputRange(driveConstants.turnPIDMinInput, driveConstants.turnPIDMaxInput);
     
-        turnSpark.configure(turnConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
+        // Apply only the closed-loop configuration
+        turnSpark.configure(turnConfig, SparkBase.ResetMode.kNoResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
     }    
 
     private void initializeTurnOffset() {
@@ -153,6 +165,14 @@ public class ModuleIOSpark implements ModuleIO {
         double absolutePositionRad = absolutePosition * driveConstants.tau; // Convert to radians
         double zeroOffsetRad = zeroRotation.getRadians(); // Radians
         turnEncoder.setPosition(absolutePositionRad - zeroOffsetRad);
+        
+        // Small delay to ensure setPosition takes effect before closed-loop configuration
+        try {
+            Thread.sleep(10); // 10ms delay
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
         System.out.println("Module " + absoluteEncoder.getDeviceID() + " absolutePosition is " + absolutePosition + " rotations, offsetted position is " + turnEncoder.getPosition() + " radians");
     }
     private Rotation2d getTurnPosition() {
