@@ -322,4 +322,8 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer {
         return gyroIO;
     }
     
+    public Module[] getModules() {
+        return modules;
+    }
+    
 }

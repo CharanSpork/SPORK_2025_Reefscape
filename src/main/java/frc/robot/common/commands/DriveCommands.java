@@ -98,8 +98,10 @@ public class DriveCommands {
                                 //System.out.println("isFlipped is " + isFlipped);
                         drive.runVelocity(speeds);
                     } else {
-                        // No joystick input - stop the drive but don't force module alignment
-                        drive.stop();
+                        // No joystick input - stop all module movement completely
+                        for (int i = 0; i < 4; i++) {
+                            drive.getModules()[i].stop();
+                        }
                     }
                 },
                 drive);
