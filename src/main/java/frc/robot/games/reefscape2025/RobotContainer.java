@@ -60,7 +60,7 @@ public class RobotContainer {
     private final XboxController operatorController = new XboxController(1);
     private final LoggedDashboardChooser<Command> autoChooser;
     private final Field2d field = new Field2d();
-    private ElevatorSubsystem elevator = new ElevatorSubsystem();
+    private ElevatorSubsystemWithEncoder elevator = new ElevatorSubsystemWithEncoder();
     private CoralOutputSubsystem coralouter = new CoralOutputSubsystem();
 
 

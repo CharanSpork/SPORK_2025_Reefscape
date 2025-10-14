@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.XboxController;;
         private final XboxController driverController;
         private final XboxController operatorController; 
         private final Drive drive;
-        private final ElevatorSubsystem elevator;
+        private final ElevatorSubsystemWithEncoder elevator;
         private final CoralOutputSubsystem coralOutput;
 
         // Store buttons and triggers as fields to ensure they persist
@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.XboxController;;
         private final Trigger rightTrigger;
         private final Trigger leftTrigger;
 
-        public ControllerBindings(XboxController driverController,XboxController operatorController, Drive driveSubsystem, ElevatorSubsystem elevator, CoralOutputSubsystem coralOutput) {
+        public ControllerBindings(XboxController driverController,XboxController operatorController, Drive driveSubsystem, ElevatorSubsystemWithEncoder elevator, CoralOutputSubsystem coralOutput) {
             this.driverController = driverController;
             this.operatorController = operatorController;
             
