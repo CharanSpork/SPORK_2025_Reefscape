@@ -7,6 +7,7 @@
 import frc.robot.common.commands.DriveCommands;
 import frc.robot.common.subsystems.drive.Drive;
 import frc.robot.games.reefscape2025.commands.SetElevatorHeightCommand;
+import frc.robot.games.reefscape2025.commands.SetElevatorHeightCommandWithEncoder;
 import frc.robot.games.reefscape2025.commands.ShootCoralCommand;
 import edu.wpi.first.wpilibj.XboxController;;
 
@@ -47,17 +48,17 @@ import edu.wpi.first.wpilibj.XboxController;;
                 () -> -driverController.getRightX()));
         
             // Secondary Controller face buttons
-            aButton.onTrue(new SetElevatorHeightCommand(elevator, 49, false));
-            bButton.onTrue(new SetElevatorHeightCommand(elevator, 28.5, false));
-            yButton.onTrue(new SetElevatorHeightCommand(elevator, 14, false));
-            xButton.onTrue(new SetElevatorHeightCommand(elevator, 3.3, false));
+            aButton.onTrue(new SetElevatorHeightCommandWithEncoder(elevator, 49, false));
+            bButton.onTrue(new SetElevatorHeightCommandWithEncoder(elevator, 28.5, false));
+            yButton.onTrue(new SetElevatorHeightCommandWithEncoder(elevator, 14, false));
+            xButton.onTrue(new SetElevatorHeightCommandWithEncoder(elevator, 3.3, false));
 
             // Trigger bindings with debug
             rightTrigger.onTrue(
                 new InstantCommand(() -> System.out.println("Right Trigger Activated"))
                     .andThen(new ShootCoralCommand(coralOutput, 0.6, false))
                     .andThen(new WaitCommand(1.5))
-                    .andThen(new SetElevatorHeightCommand(elevator, 3.3, false))
+                    .andThen(new SetElevatorHeightCommandWithEncoder(elevator, 3.3, false))
             );
             leftTrigger.onTrue(
                 new InstantCommand(() -> System.out.println("Left Trigger Activated"))
